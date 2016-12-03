@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext.kotlin_version = '1.0.5-2'
+    ext.spring_version = '4.3.4.RELEASE'
 
     repositories {
         mavenCentral()
@@ -59,5 +60,9 @@ artifacts {
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     compile 'com.google.protobuf:protobuf-java:3.1.0'
+    compile "org.springframework:spring-context:$spring_version"
+    compile "org.springframework:spring-web:$spring_version"
+    compile 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
