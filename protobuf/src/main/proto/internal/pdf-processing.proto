@@ -1,0 +1,23 @@
+package ru.edustor.proto;
+
+option java_package = "ru.edustor.commons.protobuf.proto.internal";
+option java_outer_classname = "EdustorPdfProcessingProtos";
+
+
+message PDFProcessingFinishedEvent {
+    optional string jobId = 1;
+}
+
+message PdfUploadedEvent {
+    required string uuid = 1;
+    required string userId = 2;
+    optional int64 timestamp = 3;
+}
+
+message PageRecognizedEvent {
+    required string uploadUuid = 1;
+    required string pageUuid = 2;
+    required string userId = 3;
+    optional int32 pageIndex = 4;
+    optional string qrUuid = 5;
+}

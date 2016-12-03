@@ -1,0 +1,9 @@
+package ru.edustor.proto;
+
+option java_package = "ru.edustor.commons.protobuf.proto";
+option java_outer_classname = "EdustorUploadApiProtos";
+
+
+message UploadResult {
+    required string uuid = 1;
+}
