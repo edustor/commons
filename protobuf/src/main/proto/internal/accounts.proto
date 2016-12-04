@@ -8,7 +8,7 @@ message EdustorAccount {
     required string uuid = 1;
 }
 
-message Token {
+message EdustorToken {
     optional string raw = 1;
     repeated string scope = 2;
     optional EdustorAccount account = 3;
