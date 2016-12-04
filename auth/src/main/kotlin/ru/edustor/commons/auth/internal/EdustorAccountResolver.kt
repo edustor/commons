@@ -12,8 +12,6 @@ import ru.edustor.commons.auth.EdustorTokenValidator
 import ru.edustor.commons.auth.exception.UnauthorizedException
 import ru.edustor.commons.protobuf.proto.internal.EdustorAccountsProtos.EdustorAccount
 
-@Component
-@ConditionalOnWebApplication
 open class EdustorAccountResolver(val validator: EdustorTokenValidator) : HandlerMethodArgumentResolver {
     override fun resolveArgument(parameter: MethodParameter?, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
         try {
