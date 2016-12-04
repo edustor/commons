@@ -1,6 +1,7 @@
 package ru.edustor.commons.auth.internal
 
 import io.jsonwebtoken.JwtException
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component
 import org.springframework.web.bind.support.WebDataBinderFactory
@@ -12,6 +13,7 @@ import ru.edustor.commons.auth.exception.UnauthorizedException
 import ru.edustor.commons.protobuf.proto.internal.EdustorAccountsProtos.EdustorAccount
 
 @Component
+@ConditionalOnWebApplication
 open class EdustorAccountResolver(val validator: EdustorTokenValidator) : HandlerMethodArgumentResolver {
     override fun resolveArgument(parameter: MethodParameter?, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
         try {
