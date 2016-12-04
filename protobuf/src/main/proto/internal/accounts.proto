@@ -6,10 +6,10 @@ option java_outer_classname = "EdustorAccountsProtos";
 
 message EdustorAccount {
     required string uuid = 1;
+    optional EdustorToken activeToken = 2;
 }
 
 message EdustorToken {
     optional string raw = 1;
     repeated string scope = 2;
-    optional EdustorAccount account = 3;
 }
