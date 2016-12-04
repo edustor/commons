@@ -1,6 +1,7 @@
 package ru.edustor.commons.storage.service
 
 import io.minio.MinioClient
+import io.minio.errors.ErrorResponseException
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.InputStream
@@ -29,7 +30,11 @@ open class BinaryObjectStorageService(
     }
 
     open fun get(type: ObjectType, id: String): InputStream? {
-        return minio.getObject(type.bucket, "$id.${type.extension}")
+        try {
+            return minio.getObject(type.bucket, "$id.${type.extension}")
+        } catch (e: ErrorResponseException) {
+            return null
+        }
     }
 
     open fun put(type: ObjectType, id: String, inputStream: InputStream, size: Long) {
