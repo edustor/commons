@@ -1,4 +1,4 @@
-package ru.edustor.commons.auth
+package ru.edustor.commons.auth.internal
 
 import io.jsonwebtoken.JwtException
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication
