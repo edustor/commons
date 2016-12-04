@@ -4,7 +4,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
-import ru.edustor.commons.auth.internal.EdustorAccountResolver
+import ru.edustor.commons.auth.EdustorAccountResolver
 
 @Configuration
 @ConditionalOnWebApplication
