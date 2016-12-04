@@ -1,0 +1,40 @@
+group 'ru.edustor.commons'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    ext.kotlin_version = '1.0.5-2'
+    ext.spring_boot_version = '1.4.2.RELEASE'
+
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+repositories {
+    mavenCentral()
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile 'io.minio:minio:2.0.4'
+
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure:$spring_boot_version"
+    compileOnly "org.springframework.boot:spring-boot-starter-amqp:$spring_boot_version"
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
