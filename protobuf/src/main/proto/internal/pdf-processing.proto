@@ -22,4 +22,5 @@ message PageRecognizedEvent {
     optional int32 pageIndex = 4;
     optional string qrUuid = 5;
     optional string targetLessonId = 6;
+    optional int64 uploadedTimestamp = 7;
 }
