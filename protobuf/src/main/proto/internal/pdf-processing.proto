@@ -21,5 +21,5 @@ message PageRecognizedEvent {
     required string userId = 3;
     optional int32 pageIndex = 4;
     optional string qrUuid = 5;
-    optional string targetLessonId = 4;
+    optional string targetLessonId = 6;
 }
