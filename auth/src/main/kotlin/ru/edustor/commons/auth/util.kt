@@ -1,10 +1,10 @@
 package ru.edustor.commons.auth
 
 import ru.edustor.commons.auth.exception.ForbiddenException
-import ru.edustor.commons.protobuf.proto.internal.EdustorAccountsProtos
+import ru.edustor.commons.models.internal.accounts.EdustorAccount
 
-fun EdustorAccountsProtos.EdustorAccount.assertScopeContains(requiredScope: String) {
-    if (requiredScope !in this.activeToken.scopeList) {
+fun EdustorAccount.assertScopeContains(requiredScope: String) {
+    if (this.activeToken != null && requiredScope !in this.activeToken!!.scope) {
         throw ForbiddenException("This operation requires '$requiredScope' scope")
     }
 }

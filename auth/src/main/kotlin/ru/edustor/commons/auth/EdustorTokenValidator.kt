@@ -2,8 +2,8 @@ package ru.edustor.commons.auth
 
 import io.jsonwebtoken.Jwts
 import org.springframework.stereotype.Component
-import ru.edustor.commons.protobuf.proto.internal.EdustorAccountsProtos.EdustorAccount
-import ru.edustor.commons.protobuf.proto.internal.EdustorAccountsProtos.EdustorToken
+import ru.edustor.commons.models.internal.accounts.EdustorAccount
+import ru.edustor.commons.models.internal.accounts.EdustorToken
 import java.security.KeyFactory
 import java.security.PublicKey
 import java.security.spec.X509EncodedKeySpec
@@ -30,15 +30,9 @@ open class EdustorTokenValidator {
         val scopeStr = parsedToken["scope"] as String
         val scope = scopeStr.split(",")
 
-        val edustorToken = EdustorToken.newBuilder()
-                .addAllScope(scope)
-                .setRaw(token)
-                .build()
+        val edustorToken = EdustorToken(scopeStr, scope)
 
-        val account = EdustorAccount.newBuilder()
-                .setUuid(parsedToken.subject)
-                .setActiveToken(edustorToken)
-                .build()
+        val account = EdustorAccount(parsedToken.subject, edustorToken)
 
         return account
     }
