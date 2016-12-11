@@ -28,7 +28,7 @@ open class EdustorTokenValidator {
 
 
         val scopeStr = parsedToken["scope"] as String
-        val scope = scopeStr.split(",")
+        val scope = scopeStr.split(" ")
 
         val edustorToken = EdustorToken(scopeStr, scope)
 
