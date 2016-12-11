@@ -3,6 +3,7 @@ version '1.0-SNAPSHOT'
 
 buildscript {
     ext.kotlin_version = '1.0.5-2'
+    ext.spring_boot_version = '1.4.2.RELEASE'
 
     repositories {
         mavenCentral()
@@ -23,4 +24,7 @@ dependencies {
     compile "com.fasterxml.jackson.core:jackson-databind:2.8.5"
     compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.8.5"
     compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.8.5"
+
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure:$spring_boot_version"
+    compileOnly "org.springframework.boot:spring-boot-starter-web:$spring_boot_version"
 }
