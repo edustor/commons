@@ -1,5 +1,6 @@
 package ru.edustor.commons.rabbit
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.amqp.core.Binding
 import org.springframework.amqp.core.Queue
 import org.springframework.amqp.core.TopicExchange
@@ -18,7 +19,7 @@ import org.springframework.retry.interceptor.RetryOperationsInterceptor
 @Suppress("SpringKotlinAutowiring")
 @Configuration
 @ConditionalOnClass(EnableRabbit::class)
-open class RabbitConfig {
+open class RabbitConfig(val objectMapper: ObjectMapper) {
     @Bean
     open fun rabbitRejectedExchange(): TopicExchange {
         return TopicExchange("reject.edustor", true, false)
@@ -36,6 +37,7 @@ open class RabbitConfig {
 
     open fun jacksonMessageConverter(): Jackson2JsonMessageConverter {
         val converter = Jackson2JsonMessageConverter()
+        converter.setJsonObjectMapper(objectMapper)
         return converter
     }
 
