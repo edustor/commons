@@ -1,7 +1,5 @@
 rootProject.name = 'commons'
-include 'protobuf'
 include 'auth'
 include 'storage'
 include 'rabbit'
 include 'models'
-
