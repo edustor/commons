@@ -34,7 +34,6 @@ open class RabbitConfig {
         return Binding("rejected.edustor", Binding.DestinationType.QUEUE, "reject.edustor", "#", null)
     }
 
-    @Bean
     open fun jacksonMessageConverter(): Jackson2JsonMessageConverter {
         val converter = Jackson2JsonMessageConverter()
         return converter
@@ -44,7 +43,6 @@ open class RabbitConfig {
         factory.setAdviceChain(
                 interceptor()
         )
-        factory.setMessageConverter(jacksonMessageConverter())
     }
 
     @Autowired
