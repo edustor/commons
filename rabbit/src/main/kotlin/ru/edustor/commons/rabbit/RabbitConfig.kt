@@ -45,6 +45,7 @@ open class RabbitConfig(val objectMapper: ObjectMapper) {
         factory.setAdviceChain(
                 interceptor()
         )
+        factory.setMessageConverter(jacksonMessageConverter())
     }
 
     @Autowired
