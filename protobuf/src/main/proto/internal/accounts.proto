@@ -1,5 +1,3 @@
-syntax = "proto3";
-
 package ru.edustor.proto;
 
 option java_package = "ru.edustor.commons.protobuf.proto.internal";
@@ -7,11 +5,11 @@ option java_outer_classname = "EdustorAccountsProtos";
 
 
 message EdustorAccount {
-    string uuid = 1;
-    EdustorToken activeToken = 2;
+    required string uuid = 1;
+    optional EdustorToken activeToken = 2;
 }
 
 message EdustorToken {
-    string raw = 1;
+    optional string raw = 1;
     repeated string scope = 2;
 }
