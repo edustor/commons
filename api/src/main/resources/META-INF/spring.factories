@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    ru.edustor.commons.api.config.RetrofitConfiguration
