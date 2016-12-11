@@ -13,5 +13,5 @@ message EdustorAccount {
 
 message EdustorToken {
     string raw = 1;
-    string scope = 2;
+    repeated string scope = 2;
 }
