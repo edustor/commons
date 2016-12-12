@@ -9,5 +9,6 @@ data class PageRecognizedEvent(
         val pageIndex: Int?,
         val qrUuid: String?,
         val targetLessonId: String?,
-        val uploadedTimestamp: Instant?
+        val uploadedTimestamp: Instant?,
+        val fileMD5: String
 )
