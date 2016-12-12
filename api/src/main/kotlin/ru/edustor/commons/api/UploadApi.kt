@@ -19,6 +19,5 @@ interface UploadApi {
     fun uploadPdfByUrl(
             @Field("url") url: String,
             @Field("uploader_id") uploaderId: String,
-            @Field("target") target: String,
             @Header("Authorization") authToken: String = RetrofitConfiguration.INTERNAL_AUTH_TOKEN): retrofit2.Call<Unit>
 }
