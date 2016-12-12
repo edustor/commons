@@ -10,6 +10,6 @@ fun EdustorAccount.assertScopeContains(vararg requiredScope: String) {
 
     val missingScope = requiredScope.subtract(this.activeToken!!.scope.asIterable())
     if (missingScope.isNotEmpty()) {
-        throw ForbiddenException("This operation requires '$requiredScope' scope")
+        throw ForbiddenException("This operation requires '${requiredScope.toList()}' scope")
     }
 }
