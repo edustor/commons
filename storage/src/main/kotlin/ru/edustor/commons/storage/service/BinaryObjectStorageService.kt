@@ -8,9 +8,9 @@ import java.io.InputStream
 
 @Service
 open class BinaryObjectStorageService(
-        @Value("\${S3_URL}") url: String,
-        @Value("\${S3_ACCESS_KEY}") accessKey: String,
-        @Value("\${S3_SECRET_KEY}") secretKey: String
+        @Value("\${edustor.storage.url}") url: String,
+        @Value("\${edustor.storage.access-key}") accessKey: String,
+        @Value("\${edustor.storage.secret-key}") secretKey: String
 ) {
     enum class ObjectType(val bucket: String, val extension: String, val contentType: String) {
         PDF_UPLOAD("edustor-pdf-uploads", "pdf", "application/pdf"),
