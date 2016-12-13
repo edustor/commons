@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit
 
 @Configuration
 open class RetrofitConfiguration(val objectMapper: ObjectMapper,
-                                 @Value("\${AUTH_TOKEN}") token: String) {
+                                 @Value("\${edustor.api.token}") token: String) {
 
     val httpClient: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(1, TimeUnit.MINUTES)
