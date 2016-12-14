@@ -14,7 +14,7 @@ open class BinaryObjectStorageService(
 ) {
     enum class ObjectType(val bucket: String, val extension: String, val contentType: String) {
         PDF_UPLOAD("edustor-pdf-uploads", "pdf", "application/pdf"),
-        PAGE("edustor-pages-alpha", "pdf", "application/pdf")
+        PAGE("edustor-pages", "pdf", "application/pdf")
     }
 
     private val minio: MinioClient
