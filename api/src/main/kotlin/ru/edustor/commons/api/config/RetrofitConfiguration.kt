@@ -12,7 +12,8 @@ import java.util.concurrent.TimeUnit
 
 @Configuration
 open class RetrofitConfiguration(val objectMapper: ObjectMapper,
-                                 @Value("\${edustor.api.token}") token: String) {
+                                 @Value("\${edustor.api.token}") token: String,
+                                 @Value("\${edustor.api.upload.url}") val uploadBaseUrl: String) {
 
     val httpClient: OkHttpClient = OkHttpClient.Builder()
             .readTimeout(1, TimeUnit.MINUTES)
@@ -29,7 +30,7 @@ open class RetrofitConfiguration(val objectMapper: ObjectMapper,
     @Bean
     open fun uploadApi(): UploadApi {
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://localhost:8083/api/v1/")
+                .baseUrl(uploadBaseUrl)
                 .client(httpClient)
                 .addConverterFactory(JacksonConverterFactory.create(objectMapper))
                 .build()
