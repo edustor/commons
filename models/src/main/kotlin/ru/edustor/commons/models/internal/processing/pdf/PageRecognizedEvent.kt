@@ -7,6 +7,7 @@ data class PageRecognizedEvent(
         val pageUuid: String,
         val userId: String,
         val pageIndex: Int?,
+        val totalPageCount: Int?,
         val qrUuid: String?,
         val targetLessonId: String?,
         val uploadedTimestamp: Instant?,
