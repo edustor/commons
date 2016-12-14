@@ -5,6 +5,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
 import ru.edustor.commons.api.config.RetrofitConfiguration
+import ru.edustor.commons.models.upload.UploadResult
 
 interface UploadApi {
     @FormUrlEncoded
@@ -19,5 +20,5 @@ interface UploadApi {
     fun uploadPdfByUrl(
             @Field("url") url: String,
             @Field("uploader_id") uploaderId: String,
-            @Header("Authorization") authToken: String = RetrofitConfiguration.INTERNAL_AUTH_TOKEN): retrofit2.Call<Unit>
+            @Header("Authorization") authToken: String = RetrofitConfiguration.INTERNAL_AUTH_TOKEN): retrofit2.Call<UploadResult>
 }
