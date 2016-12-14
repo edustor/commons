@@ -12,7 +12,7 @@ interface UploadApi {
     @POST("internal/nu")
     fun setNextUploadTarget(
             @Field("user_id") userId: String,
-            @Field("target") target: String,
+            @Field("target") target: String?,
             @Header("Authorization") authToken: String = RetrofitConfiguration.INTERNAL_AUTH_TOKEN): retrofit2.Call<Unit>
 
     @FormUrlEncoded
