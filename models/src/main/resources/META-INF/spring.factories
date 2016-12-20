@@ -1,0 +1,4 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  ru.edustor.commons.models.config.CustomConversionConfig,\
+  ru.edustor.commons.models.config.JacksonConfig,\
+  ru.edustor.commons.models.config.WebMvcConfig
