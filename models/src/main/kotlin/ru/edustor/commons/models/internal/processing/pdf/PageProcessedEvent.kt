@@ -6,7 +6,7 @@ data class PageProcessedEvent(
         val uploadUuid: String,
         val totalPageCount: Int?,
 
-        val pageIndex: Int?,
+        val pageIndex: Int,
         val pageUuid: String,
         val qrUuid: String?,
 
