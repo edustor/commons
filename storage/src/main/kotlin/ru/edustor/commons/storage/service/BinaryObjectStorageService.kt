@@ -3,7 +3,6 @@ package ru.edustor.commons.storage.service
 import io.minio.ErrorCode
 import io.minio.MinioClient
 import io.minio.errors.ErrorResponseException
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import java.io.InputStream
@@ -20,7 +19,6 @@ open class BinaryObjectStorageService(
     }
 
     private val minio: MinioClient = MinioClient(url, accessKey, secretKey)
-    private val logger = LoggerFactory.getLogger(BinaryObjectStorageService::class.java)
 
     init {
 
