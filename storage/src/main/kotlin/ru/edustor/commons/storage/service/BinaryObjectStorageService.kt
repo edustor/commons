@@ -49,10 +49,9 @@ open class BinaryObjectStorageService(
         try {
             minio.statObject(type.bucket, "$id.${type.extension}")
         } catch (e: ErrorResponseException) {
-            if (e.errorResponse().errorCode() == ErrorCode.NO_SUCH_OBJECT) {
-                return false
-            } else {
-                throw e
+            when (e.errorResponse().errorCode()) {
+                ErrorCode.NO_SUCH_OBJECT, ErrorCode.NO_SUCH_KEY -> return false
+                else -> throw e
             }
         }
         return true
