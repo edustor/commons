@@ -33,7 +33,7 @@ artifacts {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "org.springframework.data:spring-data-mongodb:1.10.0.RELEASE"
+    compile "org.springframework.boot:spring-boot-starter-data-mongodb:$spring_boot_version"
 
     compileOnly "org.springframework:spring-context:$spring_version"
     compileOnly "org.springframework.boot:spring-boot-autoconfigure:$spring_boot_version"

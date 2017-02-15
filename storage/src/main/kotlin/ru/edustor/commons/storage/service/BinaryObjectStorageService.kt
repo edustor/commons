@@ -1,14 +1,26 @@
 package ru.edustor.commons.storage.service
 
+import com.mongodb.MongoClient
 import com.mongodb.gridfs.GridFSDBFile
+import org.springframework.data.mongodb.core.SimpleMongoDbFactory
+import org.springframework.data.mongodb.core.convert.MongoConverter
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.gridfs.GridFsCriteria
 import org.springframework.data.mongodb.gridfs.GridFsOperations
+import org.springframework.data.mongodb.gridfs.GridFsTemplate
 import org.springframework.stereotype.Service
 import java.io.InputStream
 
 @Service
-open class BinaryObjectStorageService(val gridFs: GridFsOperations) {
+open class BinaryObjectStorageService(mongoClient: MongoClient, converter: MongoConverter) {
+
+    val gridFs: GridFsOperations
+
+    init {
+        val factory = SimpleMongoDbFactory(mongoClient, "edustor-files")
+        gridFs = GridFsTemplate(factory, converter)
+    }
+
     enum class ObjectType(val extension: String, val contentType: String) {
         PDF_UPLOAD("pdf", "application/pdf"),
         PAGE("pdf", "application/pdf")
