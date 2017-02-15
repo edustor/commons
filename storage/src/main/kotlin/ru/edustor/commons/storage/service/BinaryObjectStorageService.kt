@@ -31,7 +31,7 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, converter: Mongo
     }
 
     open fun put(type: ObjectType, id: String, inputStream: InputStream, size: Long) {
-        gridFs.store(inputStream, "$id.${type.extension}", type.contentType)
+        gridFs.store(inputStream, getFileName(type, id), type.contentType)
     }
 
     open fun delete(type: ObjectType, id: String) {
