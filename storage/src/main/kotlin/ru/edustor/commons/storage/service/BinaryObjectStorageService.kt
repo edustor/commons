@@ -6,24 +6,22 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory
 import org.springframework.data.mongodb.core.convert.MongoConverter
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.gridfs.GridFsCriteria
-import org.springframework.data.mongodb.gridfs.GridFsOperations
 import org.springframework.data.mongodb.gridfs.GridFsTemplate
 import org.springframework.stereotype.Service
 import java.io.InputStream
 
 @Service
-open class BinaryObjectStorageService(mongoClient: MongoClient, converter: MongoConverter) {
+open class BinaryObjectStorageService(mongoClient: MongoClient, private val converter: MongoConverter) {
 
-    val gridFs: GridFsOperations
+    private val factory: SimpleMongoDbFactory = SimpleMongoDbFactory(mongoClient, "edustor-files")
 
-    init {
-        val factory = SimpleMongoDbFactory(mongoClient, "edustor-files")
-        gridFs = GridFsTemplate(factory, converter)
+    enum class ObjectType(val extension: String, val contentType: String, val bucket: String) {
+        PDF_UPLOAD("pdf", "application/pdf", "uploads"),
+        PAGE("pdf", "application/pdf", "fs")
     }
 
-    enum class ObjectType(val extension: String, val contentType: String) {
-        PDF_UPLOAD("pdf", "application/pdf"),
-        PAGE("pdf", "application/pdf")
+    private fun getGridFs(bucket: String): GridFsTemplate {
+        return GridFsTemplate(factory, converter, bucket)
     }
 
     open fun get(type: ObjectType, id: String): InputStream? {
@@ -31,10 +29,12 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, converter: Mongo
     }
 
     open fun put(type: ObjectType, id: String, inputStream: InputStream, size: Long) {
+        val gridFs = getGridFs(type.bucket)
         gridFs.store(inputStream, getFileName(type, id), type.contentType)
     }
 
     open fun delete(type: ObjectType, id: String) {
+        val gridFs = getGridFs(type.bucket)
         gridFs.delete(Query.query(GridFsCriteria.whereFilename().`is`(getFileName(type, id))))
     }
 
@@ -43,6 +43,7 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, converter: Mongo
     }
 
     private fun findGridFsFile(type: ObjectType, id: String): GridFSDBFile? {
+        val gridFs = getGridFs(type.bucket)
         return gridFs.findOne(Query.query(GridFsCriteria.whereFilename().`is`(getFileName(type, id))))
     }
 
