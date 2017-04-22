@@ -16,7 +16,7 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, private val conv
     private val factory: SimpleMongoDbFactory = SimpleMongoDbFactory(mongoClient, "edustor-files")
 
     enum class ObjectType(val extension: String, val contentType: String, val bucket: String) {
-        PDF_UPLOAD("pdf", "application/pdf", "uploads"),
+        PDF_UPLOAD("pdf", "application/pdf", "pages-uploads"),
         PAGE("pdf", "application/pdf", "fs")
     }
 
