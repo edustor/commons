@@ -1,8 +1,0 @@
-rootProject.name = 'commons'
-include 'auth'
-include 'storage'
-include 'rabbit'
-include 'models'
-include 'api'
-include 'exceptions'
-include 'version'
