@@ -19,18 +19,14 @@ open class ScopeValidationInterceptor(val edustorAuthProfileResolver: EdustorAut
         val scopeStr = handler.getMethodAnnotation(RequiresAuth::class.java).scope
 
         val requiredScopesVariants = scopeStr.split(" | ")
-                .map { it.split(" ") }
+                .map { it.split(" ").filter(String::isNotEmpty) }
 
         val tokenStr = request.getHeader("Authorization")
                 ?: throw UnauthorizedException("Authorization header is not provided")
 
         val authProfile = edustorAuthProfileResolver.getByAuthToken(tokenStr)
 
-        val authorized = when {
-            requiredScopesVariants.isEmpty() -> true
-            else -> requiredScopesVariants.any { it.subtract(authProfile.scope).isEmpty() }
-        }
-
+        val authorized = requiredScopesVariants.any { it.subtract(authProfile.scope).isEmpty() }
         if (!authorized) {
             throw ForbiddenException("Your token doesn't permit this action")
         }
