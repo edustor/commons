@@ -1,14 +1,11 @@
 package ru.edustor.commons.auth
 
 import ru.edustor.commons.auth.exception.ForbiddenException
-import ru.edustor.commons.models.internal.accounts.EdustorAccount
+import ru.edustor.commons.auth.model.EdustorAuthProfile
 
-fun EdustorAccount.assertScopeContains(vararg requiredScope: String) {
-    this.activeToken ?: let {
-        throw ForbiddenException("This operation requires active token")
-    }
+fun EdustorAuthProfile.assertScopeContains(vararg requiredScope: String) {
 
-    val missingScope = requiredScope.subtract(this.activeToken!!.scope.asIterable())
+    val missingScope = requiredScope.subtract(this.scope.asIterable())
     if (missingScope.isNotEmpty()) {
         throw ForbiddenException("This operation requires $missingScope scope")
     }

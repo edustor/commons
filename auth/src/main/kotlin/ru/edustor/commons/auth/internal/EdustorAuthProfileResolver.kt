@@ -8,22 +8,27 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.method.support.ModelAndViewContainer
 import ru.edustor.commons.auth.EdustorTokenValidator
 import ru.edustor.commons.auth.exception.UnauthorizedException
-import ru.edustor.commons.models.internal.accounts.EdustorAccount
+import ru.edustor.commons.auth.model.EdustorAuthProfile
 
-open class EdustorAccountResolver(val validator: EdustorTokenValidator) : HandlerMethodArgumentResolver {
+open class EdustorAuthProfileResolver(val validator: EdustorTokenValidator) : HandlerMethodArgumentResolver {
     override fun resolveArgument(parameter: MethodParameter?, mavContainer: ModelAndViewContainer?, webRequest: NativeWebRequest, binderFactory: WebDataBinderFactory?): Any? {
+        val tokenStr = webRequest.getHeader("Authorization")
+                ?: throw UnauthorizedException("Authorization header is not provided")
+
+        return getByAuthToken(tokenStr)
+    }
+
+    override fun supportsParameter(parameter: MethodParameter): Boolean {
+        val result = parameter.parameterType == EdustorAuthProfile::class.java
+        return result
+    }
+
+    fun getByAuthToken(authToken: String): EdustorAuthProfile {
         try {
-            val tokenStr = webRequest.getHeader("Authorization")
-                    ?: throw UnauthorizedException("Authorization header is not provided")
-            val account = validator.validate(tokenStr)
+            val account = validator.validate(authToken)
             return account
         } catch (e: JwtException) {
             throw UnauthorizedException("Provided token is invalid")
         }
-    }
-
-    override fun supportsParameter(parameter: MethodParameter): Boolean {
-        val result = parameter.parameterType == EdustorAccount::class.java
-        return result
     }
 }

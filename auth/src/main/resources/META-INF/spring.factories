@@ -1,4 +1,5 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    ru.edustor.commons.auth.config.ArgumentResolverConfig,\
-    ru.edustor.commons.auth.internal.EdustorAccountResolver,\
-    ru.edustor.commons.auth.EdustorTokenValidator
+    ru.edustor.commons.auth.config.EdustorAuthConfig,\
+    ru.edustor.commons.auth.internal.EdustorAuthProfileResolver,\
+    ru.edustor.commons.auth.EdustorTokenValidator,\
+    ru.edustor.commons.auth.internal.ScopeValidationInterceptor

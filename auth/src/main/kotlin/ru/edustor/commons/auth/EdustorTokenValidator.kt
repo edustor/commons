@@ -2,8 +2,7 @@ package ru.edustor.commons.auth
 
 import io.jsonwebtoken.Jwts
 import org.springframework.stereotype.Component
-import ru.edustor.commons.models.internal.accounts.EdustorAccount
-import ru.edustor.commons.models.internal.accounts.EdustorToken
+import ru.edustor.commons.auth.model.EdustorAuthProfile
 import java.security.KeyFactory
 import java.security.PublicKey
 import java.security.spec.X509EncodedKeySpec
@@ -19,20 +18,18 @@ open class EdustorTokenValidator {
         publicKey = KeyFactory.getInstance("RSA").generatePublic(spec)
     }
 
-    fun validate(token: String) : EdustorAccount {
+    fun validate(token: String): EdustorAuthProfile {
         val parsedToken = Jwts.parser()
                 .setSigningKey(publicKey)
                 .parseClaimsJws(token)
                 .body
 
-
-
         val scopeStr = parsedToken["scope"] as String
         val scope = scopeStr.split(" ")
 
-        val edustorToken = EdustorToken(scopeStr, scope)
-
-        val account = EdustorAccount(parsedToken.subject, edustorToken)
+        val account = EdustorAuthProfile(accountId = parsedToken.subject,
+                scope = scope,
+                rawToken = token)
 
         return account
     }
