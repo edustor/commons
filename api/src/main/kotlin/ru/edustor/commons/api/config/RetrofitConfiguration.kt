@@ -31,9 +31,9 @@ open class RetrofitConfiguration(val objectMapper: ObjectMapper,
     }
 
     @Bean
-    @ConditionalOnProperty("edustor.api.upload.url")
+    @ConditionalOnProperty("edustor.api.storage.url")
     open fun uploadApi(): UploadApi {
-        return buildRetrofitApi(UploadApi::class.java, environment.getRequiredProperty("edustor.api.upload.url"))
+        return buildRetrofitApi(UploadApi::class.java, environment.getRequiredProperty("edustor.api.storage.url"))
     }
 
     @Bean
