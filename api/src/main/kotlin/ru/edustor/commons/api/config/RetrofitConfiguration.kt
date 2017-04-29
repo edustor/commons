@@ -2,7 +2,6 @@ package ru.edustor.commons.api.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import okhttp3.OkHttpClient
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -10,9 +9,8 @@ import org.springframework.core.env.Environment
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
 import ru.edustor.commons.api.CoreApi
-import ru.edustor.commons.api.UploadApi
+import ru.edustor.commons.api.StorageApi
 import java.util.concurrent.TimeUnit
-import kotlin.reflect.KClass
 
 @Configuration
 open class RetrofitConfiguration(val objectMapper: ObjectMapper,
@@ -32,8 +30,8 @@ open class RetrofitConfiguration(val objectMapper: ObjectMapper,
 
     @Bean
     @ConditionalOnProperty("edustor.api.storage.url")
-    open fun uploadApi(): UploadApi {
-        return buildRetrofitApi(UploadApi::class.java, environment.getRequiredProperty("edustor.api.storage.url"))
+    open fun storageApi(): StorageApi {
+        return buildRetrofitApi(StorageApi::class.java, environment.getRequiredProperty("edustor.api.storage.url"))
     }
 
     @Bean

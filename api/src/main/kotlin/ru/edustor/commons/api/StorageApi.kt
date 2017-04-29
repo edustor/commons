@@ -7,7 +7,7 @@ import retrofit2.http.POST
 import ru.edustor.commons.api.config.RetrofitConfiguration
 import ru.edustor.commons.models.upload.UploadResult
 
-interface UploadApi {
+interface StorageApi {
     @FormUrlEncoded
     @POST("internal/nu")
     fun setNextUploadTarget(
