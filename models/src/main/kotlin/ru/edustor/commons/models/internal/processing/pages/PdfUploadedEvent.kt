@@ -1,4 +1,4 @@
-package ru.edustor.commons.models.internal.processing.pdf
+package ru.edustor.commons.models.internal.processing.pages
 
 import java.time.Instant
 
