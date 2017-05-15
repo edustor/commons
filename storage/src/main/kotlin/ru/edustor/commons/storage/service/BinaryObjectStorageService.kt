@@ -43,7 +43,7 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, private val conv
         return findGridFsFile(type, id) != null
     }
 
-    private fun findGridFsFile(type: ObjectType, id: String): GridFSDBFile? {
+    fun findGridFsFile(type: ObjectType, id: String): GridFSDBFile? {
         val gridFs = getGridFs(type.bucket)
         return gridFs.findOne(Query.query(GridFsCriteria.whereFilename().`is`(getFileName(type, id))))
     }
