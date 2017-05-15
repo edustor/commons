@@ -17,7 +17,8 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, private val conv
 
     enum class ObjectType(val extension: String, val contentType: String, val bucket: String) {
         PDF_UPLOAD("pdf", "application/pdf", "pages-uploads"),
-        PAGE("pdf", "application/pdf", "fs")
+        PAGE("pdf", "application/pdf", "fs"),
+        ASSEMBLED_DOCUMENT("pdf", "application/pdf", "assembled-documents")
     }
 
     private fun getGridFs(bucket: String): GridFsTemplate {
@@ -51,6 +52,7 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, private val conv
         return when (type) {
             ObjectType.PAGE -> "ep-$id.${type.extension}"
             ObjectType.PDF_UPLOAD -> "upload-$id.${type.extension}"
+            ObjectType.ASSEMBLED_DOCUMENT -> "document-$id.${type.extension}"
         }
     }
 }
