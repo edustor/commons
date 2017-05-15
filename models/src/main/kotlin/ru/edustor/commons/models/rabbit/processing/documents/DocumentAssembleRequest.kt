@@ -1,4 +1,4 @@
-package ru.edustor.commons.models.internal.processing.documents
+package ru.edustor.commons.models.rabbit.processing.documents
 
 data class DocumentAssembleRequest(
         val lessonId: String,

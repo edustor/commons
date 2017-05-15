@@ -1,4 +1,4 @@
-package ru.edustor.commons.models.internal.processing.pages
+package ru.edustor.commons.models.rabbit.processing.pages
 
 data class PageProcessedEvent(
         val userId: String,

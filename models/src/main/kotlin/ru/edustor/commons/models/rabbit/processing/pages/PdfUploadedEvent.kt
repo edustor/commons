@@ -1,4 +1,4 @@
-package ru.edustor.commons.models.internal.processing.pages
+package ru.edustor.commons.models.rabbit.processing.pages
 
 import java.time.Instant
 

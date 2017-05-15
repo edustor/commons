@@ -5,7 +5,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.Header
 import retrofit2.http.POST
 import ru.edustor.commons.api.config.RetrofitConfiguration
-import ru.edustor.commons.models.upload.UploadResult
+import ru.edustor.commons.models.rest.storage.UploadResult
 
 interface StorageApi {
     @FormUrlEncoded
