@@ -2,7 +2,7 @@ group 'ru.edustor.commons'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.1.1'
+    ext.kotlin_version = '1.1.2-2'
     ext.spring_version = '4.3.4.RELEASE'
     ext.spring_boot_version = '1.5.3.RELEASE'
 
@@ -33,7 +33,7 @@ artifacts {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    compile "org.springframework.boot:spring-boot-starter-data-mongodb:$spring_boot_version"
+    compile 'io.minio:minio:3.0.4'
 
     compileOnly "org.springframework:spring-context:$spring_version"
     compileOnly "org.springframework.boot:spring-boot-autoconfigure:$spring_boot_version"

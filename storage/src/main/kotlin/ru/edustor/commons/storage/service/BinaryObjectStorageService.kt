@@ -1,52 +1,53 @@
 package ru.edustor.commons.storage.service
 
-import com.mongodb.MongoClient
-import com.mongodb.gridfs.GridFSDBFile
-import org.springframework.data.mongodb.core.SimpleMongoDbFactory
-import org.springframework.data.mongodb.core.convert.MongoConverter
-import org.springframework.data.mongodb.core.query.Query
-import org.springframework.data.mongodb.gridfs.GridFsCriteria
-import org.springframework.data.mongodb.gridfs.GridFsTemplate
+import io.minio.MinioClient
+import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import java.io.InputStream
 
 @Service
-open class BinaryObjectStorageService(mongoClient: MongoClient, private val converter: MongoConverter) {
+open class BinaryObjectStorageService(environment: Environment) {
 
-    private val factory: SimpleMongoDbFactory = SimpleMongoDbFactory(mongoClient, "edustor-files")
+    val minioClient: MinioClient
 
-    enum class ObjectType(val extension: String, val contentType: String, val bucket: String) {
-        PDF_UPLOAD("pdf", "application/pdf", "pages-uploads"),
-        PAGE("pdf", "application/pdf", "fs"),
-        ASSEMBLED_DOCUMENT("pdf", "application/pdf", "assembled-documents")
-    }
+    init {
+        val host = environment.getProperty("minio.url") ?: "http://localhost:9000"
+        val accessKey = environment.getRequiredProperty("minio.access-key")
+        val secretKey = environment.getRequiredProperty("minio.secret-key")
 
-    private fun getGridFs(bucket: String): GridFsTemplate {
-        return GridFsTemplate(factory, converter, bucket)
+        minioClient = MinioClient(host, accessKey, secretKey)
+
+        ObjectType.values()
+                .flatMap { listOf(it.bucket, it.bucket + "-removed") }
+                .forEach { ensureBucket(it) }
     }
 
     open fun get(type: ObjectType, id: String): InputStream? {
-        return findGridFsFile(type, id)?.inputStream
+        return minioClient.getObject(type.bucket, getFileName(type, id))
+    }
+
+    fun stat(type: ObjectType, id: String): ObjectStat {
+        val objectStat = minioClient.statObject(type.bucket, getFileName(type, id))
+
+        return ObjectStat(id, type, objectStat.length(), objectStat.contentType())
+
     }
 
     open fun put(type: ObjectType, id: String, inputStream: InputStream, size: Long) {
-        val gridFs = getGridFs(type.bucket)
-        gridFs.store(inputStream, getFileName(type, id), type.contentType)
+        minioClient.putObject(type.bucket, getFileName(type, id), inputStream, size, type.contentType)
     }
 
     open fun delete(type: ObjectType, id: String) {
-        val gridFs = getGridFs(type.bucket)
-        gridFs.delete(Query.query(GridFsCriteria.whereFilename().`is`(getFileName(type, id))))
+        minioClient.copyObject(type.bucket, getFileName(type, id), type.bucket + "-removed")
+        minioClient.removeObject(type.bucket, getFileName(type, id))
     }
 
-    open fun has(type: ObjectType, id: String): Boolean {
-        return findGridFsFile(type, id) != null
+    enum class ObjectType(val extension: String, val contentType: String, val bucket: String) {
+        PDF_UPLOAD("pdf", "application/pdf", "pages-uploads"),
+        PAGE("pdf", "application/pdf", "pages"),
+        ASSEMBLED_DOCUMENT("pdf", "application/pdf", "assembled-documents")
     }
 
-    fun findGridFsFile(type: ObjectType, id: String): GridFSDBFile? {
-        val gridFs = getGridFs(type.bucket)
-        return gridFs.findOne(Query.query(GridFsCriteria.whereFilename().`is`(getFileName(type, id))))
-    }
 
     private fun getFileName(type: ObjectType, id: String): String {
         return when (type) {
@@ -55,4 +56,12 @@ open class BinaryObjectStorageService(mongoClient: MongoClient, private val conv
             ObjectType.ASSEMBLED_DOCUMENT -> "document-$id.${type.extension}"
         }
     }
+
+    private fun ensureBucket(name: String) {
+        if (!minioClient.bucketExists(name)) {
+            minioClient.makeBucket(name)
+        }
+    }
+
+    data class ObjectStat(val id: String, val type: ObjectType, val length: Long, val contentType: String)
 }
