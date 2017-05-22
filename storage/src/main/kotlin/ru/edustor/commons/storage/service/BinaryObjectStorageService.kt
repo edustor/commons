@@ -1,6 +1,7 @@
 package ru.edustor.commons.storage.service
 
 import io.minio.MinioClient
+import io.minio.errors.ErrorResponseException
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
 import java.io.InputStream
@@ -23,7 +24,11 @@ open class BinaryObjectStorageService(environment: Environment) {
     }
 
     open fun get(type: ObjectType, id: String): InputStream? {
-        return minioClient.getObject(type.bucket, getFileName(type, id))
+        try {
+            return minioClient.getObject(type.bucket, getFileName(type, id))
+        } catch (e: ErrorResponseException) {
+            return null
+        }
     }
 
     fun stat(type: ObjectType, id: String): ObjectStat {
